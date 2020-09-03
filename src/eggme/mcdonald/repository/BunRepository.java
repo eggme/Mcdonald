@@ -1,0 +1,47 @@
+package eggme.mcdonald.repository;
+
+import eggme.mcdonald.bun.CornBun;
+import eggme.mcdonald.bun.McBun;
+import eggme.mcdonald.bun.SesameBun;
+import eggme.mcdonald.bun.WheatBun;
+
+import java.util.HashMap;
+import java.util.stream.Collectors;
+
+public class BunRepository implements Repository<McBun> {
+
+    private static HashMap<String, McBun> bunList;
+    private static BunRepository repository = null;
+
+    static{
+        repository = new BunRepository();
+        bunList = new HashMap<>();
+        bunList.put("참깨빵", new SesameBun());
+        bunList.put("옥수수빵", new CornBun());
+        bunList.put("통밀빵", new WheatBun());
+    }
+
+    public void showItems(){
+        System.out.println("==========================================================================================================");
+        System.out.println(getItemDescription());
+        System.out.println("==========================================================================================================");
+    }
+
+    private BunRepository(){ }
+
+    public static BunRepository getInstance(){
+        return repository;
+    }
+
+
+    @Override
+    public String getItemDescription() {
+        return bunList.entrySet().stream().map(m -> m.getValue().getNumber()+". " + m.getKey()).sorted().collect(Collectors.joining("\t\t"));
+    }
+
+    @Override
+    public McBun getItem(int index) {
+        return bunList.get(index);
+    }
+
+}
