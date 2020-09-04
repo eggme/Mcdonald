@@ -7,13 +7,15 @@ public abstract class McBun implements Bun, Toppingable {
     private int number;
     private String name;
     private int calorie;
+    private int price;
 
     private McBun(){}
 
-    public McBun(int number, String name, int calorie) {
+    public McBun(int number, String name, int calorie, int price) {
         this.number = number;
         this.name = name;
         this.calorie = calorie;
+        this.price = price;
     }
     @Override
     public final int getNumber() {
@@ -45,6 +47,18 @@ public abstract class McBun implements Bun, Toppingable {
     }
 
     @Override
+	public int getPrice() {
+		// TODO Auto-generated method stub
+		return price;
+	}
+
+	@Override
+	public void setPrice(int price) {
+		// TODO Auto-generated method stub
+		this.price = price;
+	}
+
+	@Override
     public String description() {
         return "[" + name + "] ===> [" + calorie + "kcal]";
     }

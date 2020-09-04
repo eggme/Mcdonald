@@ -1,40 +1,47 @@
 package eggme.mcdonald.service;
 
 import eggme.mcdonald.burger.McBurger;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import eggme.mcdonald.bun.McBun;
 import eggme.mcdonald.patty.McPatty;
+import eggme.mcdonald.patty.Patty;
 
 public class BurgerService implements Service<McBurger>{
 
     private OrderService orderService;
+    private McBurger temp = null;
+    private ArrayList<Patty> pattyList;
 
     public BurgerService(){
         orderService = OrderService.getInstance();
+        pattyList = new ArrayList<Patty>();
     }
     @Override
-    public McBurger order(McBurger mcBurger) {
-        orderService.addList(mcBurger);
-        return mcBurger;
+    public void order(McBurger mcBurger) {
+    	temp = mcBurger;
+    	Arrays.stream(mcBurger.getPatty()).forEach(p -> pattyList.add(p));
     }
 
-    public McBurger order(McBurger mcBurger, McBun mcBun){
+    public void order(McBurger mcBurger, McBun mcBun){
         System.out.println("add Topping, Bun");
         mcBurger.setBun(mcBun);
-        orderService.addList(mcBurger);
-        return mcBurger;
+        temp = mcBurger;
+
     }
 
-    public McBurger order(McBurger mcBurger, McPatty... patties){
+    public void order(McBurger mcBurger, McPatty patty){
         System.out.println("add Topping, Patties");
-        mcBurger.setPatty(patties);
-        orderService.addList(mcBurger);
-        return mcBurger;
+        pattyList.add(patty);
+        temp = mcBurger;
     }
 
-    public McBurger order(McBurger mcBurger, McBun mcBun, McPatty... patties){
-        mcBurger.setBun(mcBun);
-        mcBurger.setPatty(patties);
-        orderService.addList(mcBurger);
-        return mcBurger;
+    
+    public void lastOrder() {
+    	McPatty[] list = pattyList.stream().toArray(McPatty[]::new);
+    	temp.setPatty(list);
+    	orderService.addList(temp);
     }
 }

@@ -1,11 +1,14 @@
 package eggme.mcdonald.repository;
 
+import eggme.mcdonald.burger.McBurger;
 import eggme.mcdonald.patty.BulgogiPatty;
 import eggme.mcdonald.patty.ChickenPatty;
 import eggme.mcdonald.patty.McPatty;
 import eggme.mcdonald.patty.ShrimpPatty;
 
 import java.util.HashMap;
+import java.util.Set;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 public class PattyRepository implements Repository<McPatty>{
@@ -40,7 +43,9 @@ public class PattyRepository implements Repository<McPatty>{
 
     @Override
     public McPatty getItem(int index) {
-        return pattyList.get(index);
+    	Set<Entry<String, McPatty>> temp = pattyList.entrySet().stream().filter(map -> map.getValue().getNumber() == index).collect(Collectors.toSet());
+    	McPatty item = temp.iterator().next().getValue();
+        return item;
     }
 
 }

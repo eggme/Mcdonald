@@ -11,7 +11,7 @@ import java.io.InputStreamReader;
 
 public class PrintService {
 
-    public BufferedReader reader;
+	private BufferedReader reader;
     private RepositorySet repositorySet;
     private BurgerService burgerService;
     private OrderService orderService;
@@ -28,7 +28,7 @@ public class PrintService {
         }
     }
 
-    public void init() throws Exception{
+    private void init() throws Exception{
         System.out.println("==========================================================================================================");
         System.out.println("Mcdonald에 오신걸 환영합니다!");
         System.out.println("==========================================================================================================");
@@ -36,21 +36,20 @@ public class PrintService {
         do{
             addOrder = choiceMenu();
         }while (addOrder);
-        orderService.getList().stream().forEach(System.out::println);
+        System.out.println("주문하신 제품이 다음 제품이 맞습니까?");
+        orderService.getList().stream().forEach(b -> System.out.println(b.descirption()));
     }
 
-    public boolean choiceMenu() throws Exception{
+    private boolean choiceMenu() throws Exception{
         System.out.println("==========================================================================================================");
         System.out.println("메뉴 번호를 골라주세요!");
         repositorySet.getBurgerRepository().showItems();
         McBurger mcBurger = null;
         try {
-            int choice = Integer.parseInt(reader.readLine())-1;
+            int choice = Integer.parseInt(reader.readLine());
             mcBurger = repositorySet.getBurgerRepository().getItem(choice);
-            System.out.println(mcBurger.getName());
             burgerService.order(mcBurger);
         }catch(Exception e){
-            e.printStackTrace();
             System.out.println("잘 못입력하셨습니다. 다시 입력해주세요.");
             choiceMenu();
         }
@@ -64,10 +63,11 @@ public class PrintService {
                 addTopping(mcBurger);
             }
         }while (anwser.equals("Y"));
+        burgerService.lastOrder();
         return false;
     }
 
-    public void addTopping(McBurger mcBurger) throws Exception{
+    private void addTopping(McBurger mcBurger) throws Exception{
         System.out.println("==========================================================================================================");
         System.out.println("토핑을 골라주세요!!");
         System.out.println("==========================================================================================================");
@@ -84,9 +84,5 @@ public class PrintService {
         }else if(toppingable instanceof McPatty){
             burgerService.order(mcBurger, (McPatty)toppingable);
         }
-    }
-
-    public void changeTopping(){
-
     }
 }

@@ -4,8 +4,11 @@ import eggme.mcdonald.bun.CornBun;
 import eggme.mcdonald.bun.McBun;
 import eggme.mcdonald.bun.SesameBun;
 import eggme.mcdonald.bun.WheatBun;
+import eggme.mcdonald.burger.McBurger;
 
 import java.util.HashMap;
+import java.util.Set;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 public class BunRepository implements Repository<McBun> {
@@ -41,7 +44,9 @@ public class BunRepository implements Repository<McBun> {
 
     @Override
     public McBun getItem(int index) {
-        return bunList.get(index);
+    	Set<Entry<String, McBun>> temp = bunList.entrySet().stream().filter(map -> map.getValue().getNumber() == index).collect(Collectors.toSet());
+    	McBun item = temp.iterator().next().getValue();
+        return item;
     }
 
 }

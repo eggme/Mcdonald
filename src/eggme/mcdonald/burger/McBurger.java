@@ -1,7 +1,12 @@
 package eggme.mcdonald.burger;
 
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.stream.Collectors;
+
 import eggme.mcdonald.bun.Bun;
 import eggme.mcdonald.data.MenuType;
+import eggme.mcdonald.data.Source;
 import eggme.mcdonald.patty.Patty;
 import eggme.mcdonald.repository.Toppingable;
 
@@ -30,7 +35,10 @@ public abstract class McBurger implements Burger, Toppingable {
 
     @Override
     public final String descirption() {
-        return "[" + number + "][" + name + "] ===> [" + price + "]";
+    	String patty = Arrays.stream(patties).map(p->p.description()).collect(Collectors.joining("\n"));
+        return "[제품명 : '" + name + "'] ===> [가격 : " + price + " 원]\n"
+        		+ "[빵]\n"+bun.description() +"\n"
+        		+ "[패티]\n"+patty+"]";
     }
 
     @Override

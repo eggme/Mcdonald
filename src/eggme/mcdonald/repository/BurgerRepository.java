@@ -3,7 +3,15 @@ package eggme.mcdonald.repository;
 import eggme.mcdonald.burger.*;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class BurgerRepository implements Repository<McBurger>{
 
@@ -39,8 +47,9 @@ public class BurgerRepository implements Repository<McBurger>{
     }
 
     public McBurger getItem(int index){
-        McBurger burger = burgerList.entrySet().stream().map(mc -> mc.getValue().getNumber() == index);
-        return burgerList.get(index);
+    	Set<Entry<String, McBurger>> temp = burgerList.entrySet().stream().filter(map -> map.getValue().getNumber() == index).collect(Collectors.toSet());
+    	McBurger item = temp.iterator().next().getValue();
+        return item;
     }
 
 }

@@ -11,15 +11,17 @@ public abstract class McPatty implements Patty, Toppingable {
     private int number;
     private String name;
     private int calorie;
+    private int price;
     private Source[] sources;
 
     private McPatty() {}
 
-    public McPatty(int number, String name, int calorie, Source[] sources) {
+    public McPatty(int number, String name, int calorie, int price, Source[] sources) {
         this.number = number;
         this.name = name;
         this.calorie = calorie;
         this.sources = sources;
+        this.price = price;
     }
 
     @Override
@@ -61,12 +63,25 @@ public abstract class McPatty implements Patty, Toppingable {
     public final int getCalorie() {
         return calorie;
     }
+    
+    @Override
+	public int getPrice() {
+		// TODO Auto-generated method stub
+		return price;
+	}
+
+	@Override
+	public void setPrice(int price) {
+		// TODO Auto-generated method stub
+		this.price = price;
+	}
+    
 
     @Override
     public final String description() {
         String desc = Arrays.stream(sources).map(source -> {return source.name();}).collect(Collectors.joining(", "));
-        return "[" + name + "] ===> [" + calorie + "kcal][소스 종류 : " + desc;
+        return "[" + name + "] ===> [" + calorie + "kcal][소스 종류 : " + desc + "]";
     }
-
+    
     public void additional(){}
 }
